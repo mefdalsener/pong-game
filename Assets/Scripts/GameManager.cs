@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     int playerTwoScore = 0;
     public int scoreTwo { get { return playerTwoScore; } }
     int round = 1;
+    bool winnerPlayer = false;
+    public bool WinnerPlayer { get { return winnerPlayer; } }
 
     bool isGameStarted = false;
 
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour
         {
             CountDownn((int)timeElapsed);
         }
-        isPoint();
+        
         if (playerOneScore == 5 || playerTwoScore == 5)
         {
             if(playerOneScore -  playerTwoScore > 0)
@@ -52,6 +54,10 @@ public class GameManager : MonoBehaviour
             {
                 GameOver(2);
             }
+        }
+        else
+        {
+            isPoint();
         }
     }
 
@@ -84,19 +90,23 @@ public class GameManager : MonoBehaviour
 
     void isPoint()
     {
-        if (theBall.transform.position.x > 9.0f)
+        if (theBall.transform.position.x > 8.5f)
         {
+            theBall.SetActive(false);
             round++;
             playerOneScore++;
             playerScoreOne.text = playerOneScore.ToString();
+            winnerPlayer = false;
             StartCoroutine(NextRound());
 
         }
-        if (theBall.transform.position.x < -9.0f)
+        if (theBall.transform.position.x < -8.5f)
         {
+            theBall.SetActive(false);
             round++;
             playerTwoScore++;
             playerScoreTwo.text = playerTwoScore.ToString();
+            winnerPlayer = true;
             StartCoroutine(NextRound());
 
         }
@@ -105,11 +115,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextRound()
     {
-        theBall.transform.position = Vector3.zero;
-        theBall.SetActive(false);
+        theBall.transform.position = Vector3.zero;        
         countDowntimer.gameObject.SetActive(true);
         countDowntimer.text = "SCORE!!";
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.0f);        
         TimerReset();
         isGameStarted = false;
 
@@ -117,7 +126,6 @@ public class GameManager : MonoBehaviour
 
     void GameOver(int player)
     {
-        info.gameObject.SetActive(false);
         theBall.SetActive(false);
         countDowntimer.text = "Player " + player.ToString() + "\nWins!";
     }

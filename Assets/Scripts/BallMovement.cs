@@ -21,28 +21,29 @@ public class BallMovement : MonoBehaviour
 
     Vector3 reflectDirection;
     Vector3 directionNomalizer = new Vector3(1, 1, 0);
-    Vector3 lastPosition;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    Vector3 lastPosition;    
+
+    private void OnEnable()
     {
         rand = 0;
         direction = 1;
         int playerOneScore = gameManager.GetComponent<GameManager>().scoreOne;
         int playerTwoScore = gameManager.GetComponent<GameManager>().scoreTwo;
+        bool winnerPlayer = gameManager.GetComponent<GameManager>().WinnerPlayer;
 
         if (playerOneScore == 0 && playerTwoScore == 0)
         {
             rand = UnityEngine.Random.Range(0, 2);
         }
 
-        if (rand == 1)
+        if (rand == 1 || winnerPlayer)
         {
             direction *= -1;
         }
+
         ballRB.linearVelocity = Vector3.zero;
         ballRB.angularVelocity = Vector3.zero;
         ballRB.AddForce(Vector3.right * direction * power, ForceMode.VelocityChange);
-
     }
 
     // Update is called once per frame
