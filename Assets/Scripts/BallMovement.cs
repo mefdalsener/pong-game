@@ -29,14 +29,13 @@ public class BallMovement : MonoBehaviour
         direction = 1;
         int playerOneScore = gameManager.GetComponent<GameManager>().scoreOne;
         int playerTwoScore = gameManager.GetComponent<GameManager>().scoreTwo;
-        playerOneScore - playerTwoScore;
 
         if (playerOneScore == 0 && playerTwoScore == 0)
         {
             rand = UnityEngine.Random.Range(0, 2);
         }
 
-        if (rand == 1 || scoreCompare > 0)
+        if (rand == 1)
         {
             direction *= -1;
         }
