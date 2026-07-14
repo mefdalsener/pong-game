@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerScoreOne;
     [SerializeField] TextMeshProUGUI playerScoreTwo;
     [SerializeField] TextMeshProUGUI countDowntimer;
+
+    [SerializeField] Button restartButton;
+    [SerializeField] Button quitButton;
 
     [SerializeField] GameObject theBall;
     [SerializeField] GameObject gameManager;
@@ -23,30 +28,45 @@ public class GameManager : MonoBehaviour
     bool winnerPlayer = false;
     public bool WinnerPlayer { get { return winnerPlayer; } }
 
+    int gameScore = 2;
+
     bool isGameStarted = false;
+    bool isGameOver = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnEnable()
     {        
         theBall.SetActive(false);
         playerScoreOne.text = playerOneScore.ToString();
         playerScoreTwo.text = playerTwoScore.ToString();
 
         countDowntimer.gameObject.SetActive(true);
+
+        restartButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         timeElapsed = gameManager.GetComponent<GameTimer>().timeElapsed;
+        if(!isGameOver)
+        {
+            GameStart();
+        }        
+    }
+
+    void GameStart()
+    {
         if (!isGameStarted)
         {
             CountDownn((int)timeElapsed);
         }
-        
-        if (playerOneScore == 5 || playerTwoScore == 5)
+
+        if (playerOneScore == gameScore || playerTwoScore == gameScore)
         {
-            if(playerOneScore -  playerTwoScore > 0)
+            if (playerOneScore - playerTwoScore > 0)
             {
                 GameOver(1);
             }
@@ -128,10 +148,27 @@ public class GameManager : MonoBehaviour
     {
         theBall.SetActive(false);
         countDowntimer.text = "Player " + player.ToString() + "\nWins!";
+        restartButton.gameObject.SetActive(true);
+        quitButton.gameObject.SetActive(true);
+        isGameOver = true;
     }
 
     void TimerReset()
     {
         gameManager.GetComponent<GameTimer>().timeElapsed = 0.0f;
+    }
+
+    public void DoExitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+    
+   public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
