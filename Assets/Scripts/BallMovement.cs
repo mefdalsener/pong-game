@@ -68,6 +68,8 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[0]);
+
         if (collision.gameObject.CompareTag("PlayerOne") || collision.gameObject.CompareTag("PlayerTwo"))
         {
             Transform childCollision = collision.transform.Find("PlayerReferencePoint");
@@ -112,7 +114,6 @@ public class BallMovement : MonoBehaviour
             lastPosition = ball.transform.position;
 
         }
-
 
     }
 

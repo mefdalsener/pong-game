@@ -30,12 +30,14 @@ public class GameManager : MonoBehaviour
 
     bool isGameStarted = false;
     bool isGameOver = false;
+    private bool hasPlayedStartSound;
+    private bool hasPlayedReadySound;
     bool winnerPlayer = false;
     public bool WinnerPlayer { get { return winnerPlayer; } }
 
     // Her turda oyunun başında yapılacak işlemler. Bu yüzden start değilde OnEnable kullanıldı.
     void OnEnable()
-    {
+    {        
         theBall.SetActive(false);
         playerScoreOne.text = playerOneScore.ToString();
         playerScoreTwo.text = playerTwoScore.ToString();
@@ -83,7 +85,12 @@ public class GameManager : MonoBehaviour
     void CountDownn(int timer)
     {
         if (timer < 2)
-        {
+        {           
+            if(timer-1 == 0 && !hasPlayedStartSound)
+            {
+                SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[1]);
+                hasPlayedStartSound = true;
+            }
             countDowntimer.text = "Game Begins!";
         }
         else if (timer < 3)
@@ -96,6 +103,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            if(4 - timer == 0 && !hasPlayedReadySound)
+            {
+                SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[3]);
+                hasPlayedReadySound = true;
+            }
             countDowntimer.text = (7 - (int)timer).ToString();
             if (7 - (int)timer == 0)
             {
@@ -111,6 +123,7 @@ public class GameManager : MonoBehaviour
     {
         if (theBall.transform.position.x > scoreLine)
         {
+            SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[4]);
             theBall.SetActive(false);
             round++;
             playerOneScore++;
@@ -121,6 +134,7 @@ public class GameManager : MonoBehaviour
         }
         if (theBall.transform.position.x < -scoreLine)
         {
+            SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[4]);
             theBall.SetActive(false);
             round++;
             playerTwoScore++;
@@ -142,19 +156,25 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
 
     }
-
+        
     void GameOver(int player)
     {
+        SoundManager.instance.audioSource.PlayOneShot(SoundManager.instance.clip[2]);
         theBall.SetActive(false);
         countDowntimer.text = "Player " + player.ToString() + "\nWins!";
         restartButton.gameObject.SetActive(true);
         quitButton.gameObject.SetActive(true);
         isGameOver = true;
+        hasPlayedStartSound = false;
+        hasPlayedReadySound = false;
     }
 
     void TimerReset()
     {
         gameManager.GetComponent<GameTimer>().timeElapsed = 0.0f;
+        hasPlayedStartSound = false;
+        hasPlayedReadySound = false;
+
     }
 
     public void DoExitGame()
