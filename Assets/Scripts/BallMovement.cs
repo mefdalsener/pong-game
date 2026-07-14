@@ -25,8 +25,10 @@ public class BallMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        power = 12.0f;
         rand = 0;
         direction = 1;
+
         int playerOneScore = gameManager.GetComponent<GameManager>().scoreOne;
         int playerTwoScore = gameManager.GetComponent<GameManager>().scoreTwo;
         bool winnerPlayer = gameManager.GetComponent<GameManager>().WinnerPlayer;
@@ -115,10 +117,6 @@ public class BallMovement : MonoBehaviour
 
     void BallSpeedUp(float timer)
     {
-        if (timer == 0)
-        {
-            power = 12.0f;
-        }
         if (timer > 7 && (5 * speedUpCounter) + 7 < timer)
         {
             power += 1.0f;
