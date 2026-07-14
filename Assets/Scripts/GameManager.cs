@@ -19,23 +19,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameManager;
 
     float timeElapsed = 0.0f;
+    float scoreLine = 8.5f;   
 
+    int round = 1;
+    [SerializeField] int gameScore = 5;
     int playerOneScore = 0;
     public int scoreOne { get { return playerOneScore; } }
     int playerTwoScore = 0;
     public int scoreTwo { get { return playerTwoScore; } }
-    int round = 1;
-    bool winnerPlayer = false;
-    public bool WinnerPlayer { get { return winnerPlayer; } }
-
-    int gameScore = 2;
 
     bool isGameStarted = false;
     bool isGameOver = false;
+    bool winnerPlayer = false;
+    public bool WinnerPlayer { get { return winnerPlayer; } }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Her turda oyunun başında yapılacak işlemler. Bu yüzden start değilde OnEnable kullanıldı.
     void OnEnable()
-    {        
+    {
         theBall.SetActive(false);
         playerScoreOne.text = playerOneScore.ToString();
         playerScoreTwo.text = playerTwoScore.ToString();
@@ -46,15 +46,14 @@ public class GameManager : MonoBehaviour
         quitButton.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
 
         timeElapsed = gameManager.GetComponent<GameTimer>().timeElapsed;
-        if(!isGameOver)
+        if (!isGameOver)
         {
             GameStart();
-        }        
+        }
     }
 
     void GameStart()
@@ -110,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     void isPoint()
     {
-        if (theBall.transform.position.x > 8.5f)
+        if (theBall.transform.position.x > scoreLine)
         {
             theBall.SetActive(false);
             round++;
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(NextRound());
 
         }
-        if (theBall.transform.position.x < -8.5f)
+        if (theBall.transform.position.x < -scoreLine)
         {
             theBall.SetActive(false);
             round++;
@@ -135,10 +134,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextRound()
     {
-        theBall.transform.position = Vector3.zero;        
+        theBall.transform.position = Vector3.zero;
         countDowntimer.gameObject.SetActive(true);
         countDowntimer.text = "SCORE!!";
-        yield return new WaitForSeconds(2.0f);        
+        yield return new WaitForSeconds(2.0f);
         TimerReset();
         isGameStarted = false;
 
@@ -160,15 +159,16 @@ public class GameManager : MonoBehaviour
 
     public void DoExitGame()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
-    
-   public void RestartGame()
+
+    public void RestartGame()
     {
+        //Aktif Sayfayı yeniden yükle
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

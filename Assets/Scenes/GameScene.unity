@@ -256,6 +256,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218735402}
   m_CullTransparentMesh: 1
+--- !u!1 &248726013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 248726014}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &248726014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248726013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +477,7 @@ MonoBehaviour:
   quitButton: {fileID: 1007349401}
   theBall: {fileID: 1556079551}
   gameManager: {fileID: 352878329}
+  gameScore: 2
 --- !u!114 &352878332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1966,7 +1998,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallMovement
   speedUpCounter: 0
-  power: 12
+  power: 0
+  firstPower: 10
+  powerUp: 1
+  powerUpTimer: 3
   ballRB: {fileID: 1556079557}
   ball: {fileID: 1556079551}
   gameManager: {fileID: 352878329}
@@ -2717,7 +2752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   player: {fileID: 2104702998}
-  speed: 10
+  speed: 12
 --- !u!54 &2104703004
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2779,7 +2814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   player: {fileID: 2147272966}
-  speed: 10
+  speed: 12
 --- !u!54 &2147272968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2916,3 +2951,4 @@ SceneRoots:
   - {fileID: 1467876134}
   - {fileID: 824656975}
   - {fileID: 352878330}
+  - {fileID: 248726014}

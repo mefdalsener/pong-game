@@ -6,6 +6,5 @@ public class GameTimer : MonoBehaviour
     void Update()
     {
         timeElapsed += Time.deltaTime;
-        Debug.Log("Time Elapsed: " + timeElapsed);
     }
 }
