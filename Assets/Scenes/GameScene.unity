@@ -477,7 +477,7 @@ MonoBehaviour:
   quitButton: {fileID: 1007349401}
   theBall: {fileID: 1556079551}
   gameManager: {fileID: 352878329}
-  gameScore: 2
+  gameScore: 5
 --- !u!114 &352878332
 MonoBehaviour:
   m_ObjectHideFlags: 0
